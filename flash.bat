@@ -1,0 +1,1 @@
+tinygo flash -target=waveshare-rp2040-zero main.go
