@@ -1,4 +1,4 @@
-module rp3key
+module rp3keys
 
 go 1.22
 
