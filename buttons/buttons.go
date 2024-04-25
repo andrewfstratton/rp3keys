@@ -1,4 +1,4 @@
-package button
+package buttons
 
 import (
 	"machine"
@@ -11,24 +11,23 @@ const (
 )
 
 type Button struct {
-	id      int
 	Val     bool
 	Changed bool
 	pin     machine.Pin
 }
 
-var buttons = []Button{}
+var buttons = []*Button{}
 
 func init() {
 	pins := []machine.Pin{14, 13, 12} // pins are in reverse order
-	for id, pin := range pins {
+	for _, pin := range pins {
 		pin.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
-		button := Button{id, false, false, pin}
-		buttons = append(buttons, button)
+		button := Button{pin: pin}
+		buttons = append(buttons, &button)
 	}
 }
 
-func Get(id int) Button {
+func Get(id int) *Button {
 	return buttons[id]
 }
 

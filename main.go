@@ -5,7 +5,7 @@ import (
 	"machine/usb/hid/keyboard"
 	"time"
 
-	"rp3keys/button"
+	"rp3keys/buttons"
 )
 
 var (
@@ -29,20 +29,20 @@ func init() {
 }
 
 func main() {
+	time.Sleep(time.Second * 1)
+	fmt.Println("started")
 	// var neo machine.Pin = machine.GPIO18
 	// neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
 
 	// ws := ws2812.New(neo)
 
-	fmt.Println("started")
-
-	button_left := button.Get(button.LEFT)
-	button_middle := button.Get(button.MIDDLE)
-	button_right := button.Get(button.RIGHT)
+	button_left := buttons.Get(buttons.LEFT)
+	button_middle := buttons.Get(buttons.MIDDLE)
+	button_right := buttons.Get(buttons.RIGHT)
 
 	for {
-		button_left.Refresh()
 		// led := color.RGBA{R: 0x00, G: 0x00, B: 0x00} // default to switch off when changed
+		button_left.Refresh()
 		if button_left.Changed {
 			if button_left.Val {
 				kbd.Down(keyboard.KeyModifierShift)
