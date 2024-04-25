@@ -14,15 +14,22 @@ type Button struct {
 	id      int
 	Val     bool
 	Changed bool
+	pin     machine.Pin
 }
 
-var lookup = []machine.Pin{14, 13, 12}
+var buttons = []Button{}
 
-func New(id int) Button {
-	button := Button{id, false, false}
-	pin := lookup[id]
-	pin.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
-	return button
+func init() {
+	pins := []machine.Pin{14, 13, 12} // pins are in reverse order
+	for id, pin := range pins {
+		pin.Configure(machine.PinConfig{Mode: machine.PinInputPullup})
+		button := Button{id, false, false, pin}
+		buttons = append(buttons, button)
+	}
+}
+
+func Get(id int) Button {
+	return buttons[id]
 }
 
 func (button *Button) Refresh() {
@@ -35,7 +42,6 @@ func (button *Button) Refresh() {
 }
 
 func (button *Button) Pressed() bool {
-	pin := lookup[button.id]
-	result := !pin.Get() // false/low is pressed
+	result := !button.pin.Get() // pressed is false/low
 	return result
 }
