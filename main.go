@@ -36,15 +36,15 @@ func main() {
 
 	// ws := ws2812.New(neo)
 
-	button_left := buttons.Get(buttons.LEFT)
-	button_middle := buttons.Get(buttons.MIDDLE)
-	button_right := buttons.Get(buttons.RIGHT)
+	left := buttons.Get(buttons.LEFT)
+	middle := buttons.Get(buttons.MIDDLE)
+	right := buttons.Get(buttons.RIGHT)
 
 	for {
 		// led := color.RGBA{R: 0x00, G: 0x00, B: 0x00} // default to switch off when changed
-		button_left.Refresh()
-		if button_left.Changed {
-			if button_left.Val {
+		left.Refresh()
+		if left.Changed {
+			if left.Val {
 				kbd.Down(keyboard.KeyModifierShift)
 				// led = color.RGBA{R: 0xff, G: 0x00, B: 0x00}
 			} else {
@@ -53,9 +53,9 @@ func main() {
 			// leds := []color.RGBA{led, led, led}
 			// ws.WriteColors(leds[:])
 		}
-		button_middle.Refresh()
-		if button_middle.Changed {
-			if button_middle.Val {
+		middle.Refresh()
+		if middle.Changed {
+			if middle.Val {
 				kbd.Down('a')
 				// led = color.RGBA{R: 0x00, G: 0xff, B: 0x00}
 			} else {
@@ -64,9 +64,9 @@ func main() {
 			// leds := []color.RGBA{led, led, led}
 			// ws.WriteColors(leds[:])
 		}
-		button_right.Refresh()
-		if button_right.Changed {
-			if button_right.Val {
+		right.Refresh()
+		if right.Changed {
+			if right.Val {
 				// led = color.RGBA{R: 0x00, G: 0x00, B: 0xff}
 			} else {
 			}
