@@ -31,12 +31,15 @@ func Get(id int) *Button {
 	return buttons[id]
 }
 
-func (button *Button) Refresh() {
-	button.Changed = false
-	val := button.Pressed()
-	if val != button.Val {
-		button.Val = val
-		button.Changed = true
+func Refresh() {
+	for id := range buttons {
+		button := buttons[id]
+		button.Changed = false
+		val := button.Pressed()
+		if val != button.Val {
+			button.Val = val
+			button.Changed = true
+		}
 	}
 }
 

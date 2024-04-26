@@ -42,7 +42,7 @@ func main() {
 
 	for {
 		// led := color.RGBA{R: 0x00, G: 0x00, B: 0x00} // default to switch off when changed
-		left.Refresh()
+		buttons.Refresh()
 		if left.Changed {
 			if left.Val {
 				kbd.Down(keyboard.KeyModifierShift)
@@ -53,7 +53,6 @@ func main() {
 			// leds := []color.RGBA{led, led, led}
 			// ws.WriteColors(leds[:])
 		}
-		middle.Refresh()
 		if middle.Changed {
 			if middle.Val {
 				kbd.Down('a')
@@ -64,7 +63,6 @@ func main() {
 			// leds := []color.RGBA{led, led, led}
 			// ws.WriteColors(leds[:])
 		}
-		right.Refresh()
 		if right.Changed {
 			if right.Val {
 				// led = color.RGBA{R: 0x00, G: 0x00, B: 0xff}
