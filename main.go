@@ -1,11 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"machine/usb/hid/keyboard"
 	"time"
 
 	"rp3keys/buttons"
+	"rp3keys/leds"
 )
 
 var (
@@ -29,47 +29,43 @@ func init() {
 }
 
 func main() {
-	time.Sleep(time.Second * 1)
-	fmt.Println("started")
-	// var neo machine.Pin = machine.GPIO18
-	// neo.Configure(machine.PinConfig{Mode: machine.PinOutput})
-
-	// ws := ws2812.New(neo)
+	leds.Reset()
+	// time.Sleep(time.Second * 1)
+	// fmt.Println("started")
 
 	left := buttons.Get(buttons.LEFT)
 	middle := buttons.Get(buttons.MIDDLE)
 	right := buttons.Get(buttons.RIGHT)
 
 	for {
-		// led := color.RGBA{R: 0x00, G: 0x00, B: 0x00} // default to switch off when changed
 		buttons.Refresh()
 		if left.Changed {
+			led := leds.Off
 			if left.Val {
 				kbd.Down(keyboard.KeyModifierShift)
-				// led = color.RGBA{R: 0xff, G: 0x00, B: 0x00}
+				led.R = 0xff
 			} else {
 				kbd.Up(keyboard.KeyModifierShift)
 			}
-			// leds := []color.RGBA{led, led, led}
-			// ws.WriteColors(leds[:])
+			leds.All(led)
 		}
 		if middle.Changed {
+			led := leds.Off
 			if middle.Val {
 				kbd.Down('a')
-				// led = color.RGBA{R: 0x00, G: 0xff, B: 0x00}
+				led.G = 0xff
 			} else {
 				kbd.Up('a')
 			}
-			// leds := []color.RGBA{led, led, led}
-			// ws.WriteColors(leds[:])
+			leds.All(led)
 		}
 		if right.Changed {
+			led := leds.Off
 			if right.Val {
-				// led = color.RGBA{R: 0x00, G: 0x00, B: 0xff}
+				led.B = 0xff
 			} else {
 			}
-			// leds := []color.RGBA{led, led, led}
-			// ws.WriteColors(leds[:])
+			leds.All(led)
 		}
 		// TODO Fix  timing/bounce/debounce
 		time.Sleep(time.Second / 10)
