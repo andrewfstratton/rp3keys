@@ -4,12 +4,6 @@ import (
 	"machine"
 )
 
-const (
-	LEFT = iota
-	MIDDLE
-	RIGHT
-)
-
 type Button struct {
 	Val     bool
 	Changed bool

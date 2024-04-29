@@ -1,73 +1,50 @@
 package main
 
 import (
-	"machine/usb/hid/keyboard"
+	"fmt"
 	"time"
 
+	"rp3keys/board"
 	"rp3keys/buttons"
 	"rp3keys/leds"
 )
 
-var (
-	kbd = keyboard.Port()
-
-// uart = machine.Serial
-)
-
-// func kbd_send(str string) {
-// 	for i, runeChar := range str {
-// 		substr := fmt.Sprintf("<%d:", runeChar)
-// 		kbd.Write([]byte(substr))
-// 		kbd.WriteByte(str[i])
-// 		kbd.WriteByte('>')
-// 	}
-// 	kbd.Release()
-// }
-
-func init() {
-	// uart.Configure(machine.UARTConfig{TX: machine.UART_TX_PIN, RX: machine.UART_RX_PIN})
-}
-
 func main() {
 	leds.Reset()
-	// time.Sleep(time.Second * 1)
-	// fmt.Println("started")
+	time.Sleep(time.Second * 1)
+	fmt.Println("started")
 
-	left := buttons.Get(buttons.LEFT)
-	middle := buttons.Get(buttons.MIDDLE)
-	right := buttons.Get(buttons.RIGHT)
+	left := buttons.Get(board.LEFT)
+	middle := buttons.Get(board.MIDDLE)
+	right := buttons.Get(board.RIGHT)
 
 	for {
 		buttons.Refresh()
 		if left.Changed {
 			led := leds.Off
 			if left.Val {
-				kbd.Down(keyboard.KeyModifierShift)
+				board.TypeMod(board.TAB, board.ALT)
 				led.R = 0xff
-			} else {
-				kbd.Up(keyboard.KeyModifierShift)
 			}
-			leds.All(led)
+			leds.Colour(board.LEFT, led)
 		}
 		if middle.Changed {
 			led := leds.Off
 			if middle.Val {
-				kbd.Down('a')
 				led.G = 0xff
-			} else {
-				kbd.Up('a')
+				board.TypeMod(board.TAB, board.CTRL)
 			}
-			leds.All(led)
+			leds.Colour(board.MIDDLE, led)
 		}
 		if right.Changed {
 			led := leds.Off
 			if right.Val {
+				board.TypeMod(board.TAB, board.SHIFT)
 				led.B = 0xff
-			} else {
 			}
-			leds.All(led)
+			leds.Colour(board.RIGHT, led)
 		}
 		// TODO Fix  timing/bounce/debounce
-		time.Sleep(time.Second / 10)
+		time.Sleep(time.Second / 25)
 	}
 }
